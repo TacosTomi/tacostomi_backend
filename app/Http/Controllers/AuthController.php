@@ -44,17 +44,17 @@ class AuthController extends Controller
 
         //rol 1 = admin. 
         if($request->user()->rol_id !== 1)
-            {
-                return response()->json([
-                    'message' => 'Alto ahi chiavo. Solo admins pueden registrar'
-                ], 403);
-            }
+        {
+            return response()->json([
+                'message' => 'Alto ahi chiavo. Solo admins pueden registrar'
+            ], 403);
+        }
 
         $request->validate([
-            'nombre' => 'requiered|string',
-            'correo' => 'requiered|email|unique:usuarios,correo',
-            'password' => 'requiered|min:6',
-            'rol_id' => 'requiered|integer'
+            'nombre' => 'required|string',
+            'correo' => 'required|email|unique:usuarios,correo',
+            'password' => 'required|min:6',
+            'rol_id' => 'required|integer'
         ]);
 
         $user = User::create([
@@ -67,7 +67,6 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'Usuario chemo creado exitosamente',
-            'token' => $token,
             'user' => $user
         ], 201); 
     }
