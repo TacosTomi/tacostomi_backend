@@ -3,7 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriaController;
-use App\Http\Controllers\RoleController; // <-- 1. Importas el nuevo controlador
+use App\Http\Controllers\RoleController; 
+use App\Http\Controllers\AuthController;
+
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -11,4 +13,11 @@ Route::get('/user', function (Request $request) {
 
 Route::get('/categorias', [CategoriaController::class, 'index']);
 
-Route::get('/roles', [RoleController::class, 'index']);
+//Route::get('/roles', [RoleController::class, 'index']);
+
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::middleware('auth:sanctum')->group(function() 
+    {
+        Route::get('/roles', [RoleController::class, 'index']);
+    });
