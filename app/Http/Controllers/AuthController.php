@@ -5,35 +5,32 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
 
     // -------- validation -----------
 
-    public function login(Request $request)
+     public function loginWeb(Request $request)
     {
         $request->validate([
             'correo' => 'required|email', 
             'password' => 'required'
         ]);
 
+        
         $user = User::where('correo', $request->correo)->first();
 
         if(!$user || !Hash::check($request->password, $user->password_hash))
         {
-            return response()->json([
-                'message' => 'Wrong password alv chiavo'
-            ], 401);
+            return back()->withErrors(['error' => 'Credenciales incorrectas alv chiavo']);
         }
 
-        $token = $user->createToken('token_acceso')->plainTextToken;
+        Auth::login($user);
+        $request->session()->regenerate(); // para seguridad
 
-        return response()->json([
-            'message' => 'Login exitoso',
-            'token' => $token,
-            'user' => $user
-        ]);
+        return redirect('/admin');
     }
 
 
@@ -41,15 +38,12 @@ class AuthController extends Controller
 
     public function registration(Request $request)
     {
-
-        //rol 1 = admin. 
         if($request->user()->rol_id !== 1)
         {
-            return response()->json([
-                'message' => 'Alto ahi chiavo. Solo admins pueden registrar'
-            ], 403);
+            return back()->withErrors(['error' => 'Alto ahi chiavo. Solo admins pueden registrar']);
         }
 
+        
         $request->validate([
             'nombre' => 'required|string',
             'correo' => 'required|email|unique:usuarios,correo',
@@ -57,7 +51,7 @@ class AuthController extends Controller
             'rol_id' => 'required|integer'
         ]);
 
-        $user = User::create([
+        User::create([
             'nombre' => $request->nombre,
             'correo' => $request->correo,
             'password_hash' => Hash::make($request->password),
@@ -65,9 +59,7 @@ class AuthController extends Controller
             'foto_perfil' => null
         ]);
 
-        return response()->json([
-            'message' => 'Usuario chemo creado exitosamente',
-            'user' => $user
-        ], 201); 
+        return redirect('/admin'); 
     }
+   
 }
