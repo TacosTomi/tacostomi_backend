@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 
 
 Route::get('/login', function () {
@@ -13,13 +14,13 @@ Route::post('/login', [AuthController::class, 'loginWeb']);
 Route::middleware('auth')->group(function () {
     
     Route::get('/admin', function () {
-        return "<h1>Panel de Administrador</h1><p>Bienvenido " . auth()->user()->nombre . "!</p>";
+        return view('admin_home');
     });
 
     Route::get('/crearUsuario', function () {
         return view('registrarUsuario'); 
     });
-
-    Route::post('/crearUsuario', [AuthController::class, 'registration']);
     
+    Route::post('/crearUsuario', [AuthController::class, 'registration']);
+    Route::get('/usuarios', [UserController::class, 'index']);    
 });
