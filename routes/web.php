@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\PlatilloController;
 
 
 Route::get('/login', function () {
@@ -25,11 +27,19 @@ Route::middleware('auth')->group(function ()
     });
 
     Route::post('/crearUsuario', [AuthController::class, 'registration']);
+    Route::get('/crearPlatillo', [PlatilloController::class, 'create']);
+    Route::post('/crearPlatillo', [PlatilloController::class, 'store']);
     Route::get('/usuarios', [UserController::class, 'index']);
     Route::get('/mesasHome', function()
     {
         return view('mesero');
     });
+    Route::get('/cocina', function()
+    {
+        return view('cocina');
+    });
+
+    Route::get('/categories', [CategoriaController::class, 'index']);
 
     Route::get('/logout', [AuthController::class, 'logoutWeb']);
 });

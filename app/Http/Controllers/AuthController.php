@@ -35,11 +35,11 @@ class AuthController extends Controller
             case 1: //Administrator
                 return redirect('/admin');
             
-            case 2: //Mesas
-                return redirect('/mesasHome');
-            
-            case 3:// cocina
+            case 2: //cocina
                 return redirect('/cocina');
+            
+            case 3:// mesas
+                return redirect('/mesasHome');
 
             default: 
                 Auth::logout();
@@ -52,7 +52,7 @@ class AuthController extends Controller
     public function logoutWeb(Request $request)
     {
         Auth::logout();
-        $request->session()->invalidate();        
+        $request->session()->invalidate();   
         $request->session()->regenerateToken();
 
         return redirect('/login');
