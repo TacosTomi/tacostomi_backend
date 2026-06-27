@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Administrador - Tacostomi</title>
+    <title>Panel de Meseros - Tacostomi</title>
     <style>
         body { 
             font-family: sans-serif; 
@@ -48,16 +49,11 @@
 <body>
 
     <div class="container">
-        <h1>Panel de Administrador</h1>
+        <h1>Panel de Meseros</h1>
         
         <p>¡Bienvenido de vuelta, <strong>{{ auth()->user()->nombre }}</strong>!</p>
 
-        <div class="btnsPanel">
-            <a  href="/crearUsuario" class="btn-add">+ Agregar Nuevo Personal</a>
-        </div>
-        <div class="btnsPanel">        
-            <a  href="/usuarios" class="btn-add" style="background-color: #e9c46a; color: #264653;">📋 Ver Lista de Personal</a>
-        </div>
+       
         <a href="/logout" class="logout-link">Cerrar Sesión</a>
     </div>
 

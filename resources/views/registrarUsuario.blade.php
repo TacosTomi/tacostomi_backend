@@ -41,8 +41,13 @@
             </div>
 
             <div class="form-group">
-                <label>Contraseña Temporal (mín. 6 letras):</label>
+                <label>Contraseña Temporal:</label>
                 <input type="password" name="password" required>
+            </div>
+
+            <div class="form-group">
+                <label>Confirmar Contraseña:</label>
+                <input type="password" name="password_confirmation" required>
             </div>
 
             <div class="form-group">

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
 
-    // -------- validation -----------
+    // -------- log in -----------
 
      public function loginWeb(Request $request)
     {
@@ -28,11 +28,35 @@ class AuthController extends Controller
         }
 
         Auth::login($user);
-        $request->session()->regenerate(); // para seguridad
+        $request->session()->regenerate(); 
 
-        return redirect('/admin');
+        switch ($user->rol_id)
+        {
+            case 1: //Administrator
+                return redirect('/admin');
+            
+            case 2: //Mesas
+                return redirect('/mesasHome');
+            
+            case 3:// cocina
+                return redirect('/cocina');
+
+            default: 
+                Auth::logout();
+                return back()->withErrors(['errors' => 'Rol desconocido. Adios chiavo']);
+        }
+
     }
 
+    // --------- log out -----------------
+    public function logoutWeb(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();        
+        $request->session()->regenerateToken();
+
+        return redirect('/login');
+    }
 
     // -------- creation of user ----------
 
@@ -47,7 +71,7 @@ class AuthController extends Controller
         $request->validate([
             'nombre' => 'required|string',
             'correo' => 'required|email|unique:usuarios,correo',
-            'password' => 'required|min:6',
+            'password' => 'required|min:6|confirmed',
             'rol_id' => 'required|integer'
         ]);
 
@@ -61,5 +85,6 @@ class AuthController extends Controller
 
         return redirect('/admin'); 
     }
+
    
 }

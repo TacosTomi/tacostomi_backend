@@ -11,16 +11,25 @@ Route::get('/login', function () {
 
 Route::post('/login', [AuthController::class, 'loginWeb']);
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth')->group(function () 
+{
     
-    Route::get('/admin', function () {
+    Route::get('/admin', function () 
+    {
         return view('admin_home');
     });
 
-    Route::get('/crearUsuario', function () {
+    Route::get('/crearUsuario', function () 
+    {
         return view('registrarUsuario'); 
     });
-    
+
     Route::post('/crearUsuario', [AuthController::class, 'registration']);
-    Route::get('/usuarios', [UserController::class, 'index']);    
+    Route::get('/usuarios', [UserController::class, 'index']);
+    Route::get('/mesasHome', function()
+    {
+        return view('mesero');
+    });
+
+    Route::get('/logout', [AuthController::class, 'logoutWeb']);
 });
