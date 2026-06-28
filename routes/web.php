@@ -12,6 +12,8 @@ Route::get('/login', function () {
 })->name('login');
 
 Route::post('/login', [AuthController::class, 'loginWeb']);
+Route::get('/categories', [CategoriaController::class, 'index']);
+Route::get('/platillos', [PlatilloController::class, 'verPlatillos']);
 
 Route::middleware('auth')->group(function () 
 {
@@ -39,7 +41,7 @@ Route::middleware('auth')->group(function ()
         return view('cocina');
     });
 
-    Route::get('/categories', [CategoriaController::class, 'index']);
-
     Route::get('/logout', [AuthController::class, 'logoutWeb']);
 });
+
+

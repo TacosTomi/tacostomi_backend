@@ -63,6 +63,10 @@
             <a href="/crearPlatillo" class="btn-add" style="background-color: #e9c46a; color: #264653;">📢 Agregar platillos</a>
         </div>
 
+        <div class="btnsPanel">
+            <a href="/crearPlatillo" class="btn-add" style="background-color: #e9c46a; color: #264653;">📢 Ver platillos</a>
+        </div>
+
         <a href="/logout" class="logout-link">Cerrar Sesión</a>
     </div>
 
