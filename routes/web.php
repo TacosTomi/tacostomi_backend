@@ -15,9 +15,11 @@ Route::post('/login', [AuthController::class, 'loginWeb']);
 Route::get('/categories', [CategoriaController::class, 'index']);
 Route::get('/platillos', [PlatilloController::class, 'verPlatillos']);
 
-Route::middleware('auth')->group(function () 
+
+Route::middleware('auth')->group(function () //everything within needs to be logged in.
 {
     
+    ###################################### RUTAS DE ADMIN ######################################
     Route::get('/admin', function () 
     {
         return view('admin_home');
@@ -32,6 +34,15 @@ Route::middleware('auth')->group(function ()
     Route::get('/crearPlatillo', [PlatilloController::class, 'create']);
     Route::post('/crearPlatillo', [PlatilloController::class, 'store']);
     Route::get('/usuarios', [UserController::class, 'index']);
+    Route::get('/editarPlatillo/{id}', [PlatilloController::class, 'vistaModificarPlatillo']);
+    Route::post('editarPlatillo/{id}', [PlatilloController::class, 'modifcarPlatillos']);
+
+
+
+    ###################################### RUTAS DE ADMIN ######################################
+
+
+    ###################################### RUTAS DE MESERO ######################################
     Route::get('/mesasHome', function()
     {
         return view('mesero');

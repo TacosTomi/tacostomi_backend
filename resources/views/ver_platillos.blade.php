@@ -64,6 +64,7 @@
                                 <th>Precio</th>
                                 <th>Categoría</th>
                                 <th>Estado</th>
+                                <th class="text-center">Opciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -93,10 +94,27 @@
                                             <span class="badge bg-danger">Inactivo</span>
                                         @endif
                                     </td>
+                                    
+                                    <td class="text-center">
+                                        <div class="dropdown">
+                                            <button class="btn btn-sm btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                                Opciones
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a class="dropdown-item" href="/editarPlatillo/{{ $platillo->id }}">Editar</a>
+                                                </li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li>
+                                                    <a class="dropdown-item text-danger" href="#">Eliminar</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="text-center py-4 text-muted">
+                                    <td colspan="7" class="text-center py-4 text-muted">
                                         No se encontraron platillos con los criterios de búsqueda seleccionados.
                                     </td>
                                 </tr>
@@ -107,5 +125,7 @@
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
