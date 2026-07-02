@@ -12,7 +12,7 @@ Route::get('/login', function () {
 })->name('login');
 
 Route::post('/login', [AuthController::class, 'loginWeb']);
-Route::get('/categories', [CategoriaController::class, 'index']);
+//Route::get('/categories', [CategoriaController::class, 'index']);
 Route::get('/platillos', [PlatilloController::class, 'verPlatillos']);
 
 
@@ -29,7 +29,7 @@ Route::middleware('auth')->group(function () //everything within needs to be log
     {
         return view('registrarUsuario'); 
     });
-
+    Route::get('/platillosAdmin', [PlatilloController::class, 'verPlatillosAdmin']);
     Route::post('/crearUsuario', [AuthController::class, 'registration']);
     Route::get('/crearPlatillo', [PlatilloController::class, 'create']);
     Route::post('/crearPlatillo', [PlatilloController::class, 'store']);

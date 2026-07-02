@@ -5,17 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Platillo;
 use App\Models\Categoria;
-
-
-//for future: create a function that determines iof youre admin or weiatres. Thus, 
-//just calling the function instead of just doing the if.
-
-
+use Illuminate\Support\Facades\Storage;
 
 class PlatilloController extends Controller
 {
-
-
     public function create()
     {
         if(auth()->user()->rol_id !== 1) {
@@ -27,7 +20,6 @@ class PlatilloController extends Controller
         return view('crear_platillo', compact('categorias'));
     }
 
-
     public function store(Request $request)
     {
         if(auth()->user()->rol_id !== 1) {
@@ -37,48 +29,70 @@ class PlatilloController extends Controller
         $request->validate([
             'nombre' => 'required|string',       
             'descripcion' => 'required|string',
-            'precio'=> 'required|numeric',       //mieric es para numeros cond ecimlaes
+            'precio'=> 'required|numeric',       
             'activo'=> 'required|boolean',      
-            'categoria_id'=> 'required|integer'
+            'categoria_id'=> 'required|integer',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048'
+        ], [
+            // MENSAJES PERSONALIZADOS
+            'image.image' => 'Requerimientos de imagenes no encontrados: El archivo debe ser una imagen válida.',
+            'image.mimes' => 'Requerimientos de imagenes no encontrados: Solo se aceptan formatos jpeg, png, jpg o webp.',
+            'image.max' => 'Requerimientos de imagenes no encontrados: La imagen es muy pesada (máximo 2MB).'
         ]);
+
+        $urlImage = null;
+
+        if($request->hasFile('image'))
+        {
+            if (!$request->file('image')->isValid()) {
+                return back()->withErrors(['image' => 'Requerimientos de imagenes no encontrados: Archivo corrupto al subir.']);
+            }
+
+            $path = $request->file('image')->store('platillos', 's3');
+            $urlImage = Storage::disk('s3')->url($path);
+        }
 
         Platillo::create([
             'nombre' => $request->nombre,
             'descripcion' => $request->descripcion,
             'precio'=> $request->precio,
             'activo'=> $request->activo,
-            'categoria_id'=> $request->categoria_id
+            'categoria_id'=> $request->categoria_id,
+            'imagen_url' => $urlImage
         ]);
 
         return redirect('/admin');
     }
 
-    public function verPlatillos(Request $request)
+    public function verPlatillos()
+    {
+        $platillos = Platillo::where('activo', true)->get();
+        return view('ver_platillos', compact('platillos'));
+    }
+
+    public function verPlatillosAdmin(Request $request)
     {
         $categorias = Categoria::all();
-
         $query = Platillo::with('categoria');
 
-        if ($request->filled('categoria_id')) 
-        {
+        if ($request->filled('categoria_id')) {
             $query->where('categoria_id', $request->categoria_id);
         }
-
-        if ($request->filled('precio_max')) 
-        {
+        if ($request->filled('precio_max')) {
             $query->where('precio', '<=', $request->precio_max);
+        }
+        if ($request->filled('disponibilidad')) {
+            $query->where('activo', $request->disponibilidad);  
         }
 
         $platillos = $query->get();
-
-        return view('ver_platillos', compact('platillos', 'categorias'));
+        return view('ver_platillosAdmin', compact('platillos', 'categorias'));
     }
 
     public function vistaModificarPlatillo($id)
     {
-        if(auth()->user()->rol_id !==1)
-        {
-            abort(402, 'Alto ahi chiavo! Esto es solo para admins VRGS');
+        if(auth()->user()->rol_id !==1) {
+            abort(403, 'Alto ahi chiavo! Esto es solo para admins VRGS');
         }
 
         $platillo = Platillo::findOrFail($id);
@@ -87,12 +101,10 @@ class PlatilloController extends Controller
         return view('editar_platillo', compact('platillo', 'categorias'));
     }
 
-
     public function modifcarPlatillos(Request $request, $id)
     {
-        if(auth()->user()->rol_id !==1)
-        {
-            abort(402, 'Alto ahi chiavo! Esto es solo para admins VRGS');
+        if(auth()->user()->rol_id !==1) {
+            abort(403, 'Alto ahi chiavo! Esto es solo para admins VRGS');
         }
 
         $request->validate([
@@ -100,20 +112,34 @@ class PlatilloController extends Controller
             'descripcion' => 'required|string',
             'precio'=> 'required|numeric',       
             'activo'=> 'required|boolean',      
-            'categoria_id'=> 'required|integer'
+            'categoria_id'=> 'required|integer',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048'
+        ], [
+            // MENSAJES PERSONALIZADOS
+            'image.image' => 'Requerimientos de imagenes no encontrados: El archivo debe ser una imagen válida.',
+            'image.mimes' => 'Requerimientos de imagenes no encontrados: Solo se aceptan formatos jpeg, png, jpg o webp.',
+            'image.max' => 'Requerimientos de imagenes no encontrados: La imagen es muy pesada (máximo 2MB).'
         ]);
 
         $platillo = Platillo::findOrFail($id);
-
         $platillo->nombre = $request->nombre;
         $platillo->descripcion = $request->descripcion;
         $platillo->precio = $request->precio;
         $platillo->activo = $request->activo;
         $platillo->categoria_id = $request->categoria_id;
 
-        //to save updated info in the db 
+        if($request->hasFile('image'))
+        {
+            if (!$request->file('image')->isValid()) {
+                return back()->withErrors(['image' => 'Requerimientos de imagenes no encontrados: Archivo corrupto al subir.']);
+            }
+
+            $path = $request->file('image')->store('platillos', 's3');
+            $platillo->imagen_url = Storage::disk('s3')->url($path);
+        }
+
         $platillo->save();
 
-        return redirect('/admin');
+        return redirect('/platillosAdmin');
     }
 }

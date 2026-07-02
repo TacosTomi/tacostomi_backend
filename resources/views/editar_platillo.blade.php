@@ -12,7 +12,7 @@
             <div class="col-md-6">
                 <div class="card shadow-sm">
                     <div class="card-header bg-dark text-white">
-                        <h5 class="mb-0">✏️ Editar Platillo: {{ $platillo->nombre }}</h5>
+                        <h5 class="mb-0">Editar Platillo: {{ $platillo->nombre }}</h5>
                     </div>
                     <div class="card-body">
                         
@@ -26,7 +26,7 @@
                             </div>
                         @endif
 
-                        <form action="/editarPlatillo/{{ $platillo->id }}" method="POST">
+                        <form action="/editarPlatillo/{{ $platillo->id }}" method="POST" enctype="multipart/form-data">
                             @csrf 
                             
                             <div class="mb-3">
@@ -61,6 +61,11 @@
                                     <option value="1" {{ $platillo->activo == 1 ? 'selected' : '' }}>Activo (Visible en el menú)</option>
                                     <option value="0" {{ $platillo->activo == 0 ? 'selected' : '' }}>Inactivo (Oculto / Agotado)</option>
                                 </select>
+                            </div>
+
+                            <div class="form-label fw-bold">
+                                <label for="imagen" class="form-label">Imagen del Platillo</label>
+                                <input type="file" class="form-control" name="imagen" id="imagen" accept="image/*">
                             </div>
 
                             <div class="d-flex gap-2">

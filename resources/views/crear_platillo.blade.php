@@ -83,7 +83,7 @@
             </div>
         @endif
 
-        <form action="/crearPlatillo" method="POST">
+        <form action="/crearPlatillo" method="POST" enctype="multipart/form-data">
             @csrf <div class="form-group">
                 <label>Nombre del Platillo:</label>
                 <input type="text" name="nombre" placeholder="Ej. Tacos al Pastor" required>
@@ -116,6 +116,11 @@
                     <option value="1" selected>Activo (Visible en el menú)</option>
                     <option value="0">Inactivo (Oculto / Agotado)</option>
                 </select>
+            </div>
+
+            <div class="form-group">
+                <label for="imagen" class="form-label">Imagen del Platillo</label>
+                <input type="file" class="form-control" name="imagen" id="imagen" accept="image/*">
             </div>
 
             <button type="submit" class="btn-submit">Guardar Platillo</button>
