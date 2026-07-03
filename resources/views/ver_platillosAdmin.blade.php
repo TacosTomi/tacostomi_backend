@@ -117,7 +117,12 @@
                                                 </li>
                                                 <li><hr class="dropdown-divider"></li>
                                                 <li>
-                                                    <a class="dropdown-item text-danger" href="#">Eliminar</a>
+                                                    <form action="/eliminarPlatillo/{{ $platillo->id }}" method="POST" style="margin: 0;">
+                                                        @csrf
+                                                        @method('DELETE') <button type="submit" class="dropdown-item text-danger" onclick="return confirm('¿Seguro que quieres eliminar este platillo?')">
+                                                            Eliminar
+                                                        </button>
+                                                    </form>
                                                 </li>
                                             </ul>
                                         </div>

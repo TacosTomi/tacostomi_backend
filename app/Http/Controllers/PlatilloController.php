@@ -142,4 +142,17 @@ class PlatilloController extends Controller
 
         return redirect('/platillosAdmin');
     }
+
+    public function eliminarPlatillo($id)
+    {
+        if(auth()->user()->rol_id !==1) 
+        {
+            abort(403, 'Alto ahi chiavo! Esto es solo para admins VRGS');
+        }
+
+        $platillo = Platillo::findOrFail($id);
+        $platillo->delete();
+
+        return redirect('/platillosAdmin');
+    }
 }

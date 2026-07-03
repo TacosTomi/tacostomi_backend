@@ -36,8 +36,9 @@ Route::middleware('auth')->group(function () //everything within needs to be log
     Route::get('/usuarios', [UserController::class, 'index']);
     Route::get('/editarPlatillo/{id}', [PlatilloController::class, 'vistaModificarPlatillo']);
     Route::post('editarPlatillo/{id}', [PlatilloController::class, 'modifcarPlatillos']);
-
-
+    Route::delete('eliminarPlatillo/{id}', [PlatilloController::class, 'eliminarPlatillo']);
+    
+    
 
     ###################################### RUTAS DE ADMIN ######################################
 
