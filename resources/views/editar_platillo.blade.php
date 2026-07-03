@@ -65,7 +65,7 @@
 
                             <div class="form-label fw-bold">
                                 <label for="imagen" class="form-label">Imagen del Platillo</label>
-                                <input type="file" class="form-control" name="imagen" id="imagen" accept="image/*">
+                                <input type="file" class="form-control" name="image" id="image" accept="image/*">
                             </div>
 
                             <div class="d-flex gap-2">

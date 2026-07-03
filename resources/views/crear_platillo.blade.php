@@ -120,7 +120,7 @@
 
             <div class="form-group">
                 <label for="imagen" class="form-label">Imagen del Platillo</label>
-                <input type="file" class="form-control" name="imagen" id="imagen" accept="image/*">
+                <input type="file" class="form-control" name="image" id="image" accept="image/*">
             </div>
 
             <button type="submit" class="btn-submit">Guardar Platillo</button>
