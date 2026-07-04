@@ -34,10 +34,10 @@ class PlatilloController extends Controller
             'categoria_id'=> 'required|integer',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048'
         ], [
-            // MENSAJES PERSONALIZADOS
+            
             'image.image' => 'Requerimientos de imagenes no encontrados: El archivo debe ser una imagen válida.',
             'image.mimes' => 'Requerimientos de imagenes no encontrados: Solo se aceptan formatos jpeg, png, jpg o webp.',
-            'image.max' => 'Requerimientos de imagenes no encontrados: La imagen es muy pesada (máximo 2MB).'
+            'image.max' => 'Requerimientos de imagenes no encontrados: La imagen es muy pesada (maximo 2MB).'
         ]);
 
         $urlImage = null;
@@ -61,7 +61,7 @@ class PlatilloController extends Controller
             'imagen_url' => $urlImage
         ]);
 
-        return redirect('/admin');
+        return redirect('/admin')->with('success', 'Usuario creado exitosamente.');;
     }
 
     public function verPlatillos()
@@ -110,13 +110,13 @@ class PlatilloController extends Controller
         $request->validate([
             'nombre' => 'required|string',       
             'descripcion' => 'required|string',
-            'precio'=> 'required|numeric',       
-            'activo'=> 'required|boolean',      
+            'precio'=> 'required|numeric',    
+            'activo'=> 'required|boolean',    
             'categoria_id'=> 'required|integer',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048'
         ], [
-            // MENSAJES PERSONALIZADOS
-            'image.image' => 'Requerimientos de imagenes no encontrados: El archivo debe ser una imagen válida.',
+            //warnings para imagenes 
+            'image.image' => 'Requerimientos de imagenes no encontrados: El archivo debe ser una imagen valida.',
             'image.mimes' => 'Requerimientos de imagenes no encontrados: Solo se aceptan formatos jpeg, png, jpg o webp.',
             'image.max' => 'Requerimientos de imagenes no encontrados: La imagen es muy pesada (máximo 2MB).'
         ]);

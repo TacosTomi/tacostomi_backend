@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\PlatilloController;
+use App\Http\Controllers\MesaController;
 
 
 Route::get('/login', function () {
@@ -16,7 +17,7 @@ Route::post('/login', [AuthController::class, 'loginWeb']);
 Route::get('/platillos', [PlatilloController::class, 'verPlatillos']);
 
 
-Route::middleware('auth')->group(function () //everything within needs to be logged in.
+Route::middleware('auth')->group(function () //needed to be logged in para access estas rutas below
 {
     
     ###################################### RUTAS DE ADMIN ######################################
@@ -29,18 +30,27 @@ Route::middleware('auth')->group(function () //everything within needs to be log
     {
         return view('registrarUsuario'); 
     });
-    Route::get('/platillosAdmin', [PlatilloController::class, 'verPlatillosAdmin']);
+
+    
     Route::post('/crearUsuario', [AuthController::class, 'registration']);
     Route::get('/crearPlatillo', [PlatilloController::class, 'create']);
     Route::post('/crearPlatillo', [PlatilloController::class, 'store']);
     Route::get('/usuarios', [UserController::class, 'index']);
+
+     Route::get('/platillosAdmin', [PlatilloController::class, 'verPlatillosAdmin']);
     Route::get('/editarPlatillo/{id}', [PlatilloController::class, 'vistaModificarPlatillo']);
     Route::post('editarPlatillo/{id}', [PlatilloController::class, 'modifcarPlatillos']);
     Route::delete('eliminarPlatillo/{id}', [PlatilloController::class, 'eliminarPlatillo']);
+
+    Route::get('/crearMesa', [MesaController::class, 'createMesa']);
+    Route::post('/crearMesa', [MesaController::class, 'storeMesa']);
+    Route::get('/verMesas', [MesaController::class, 'verMesas']);
+    Route::delete('/eliminarMesa/{id}', [MesaController::class, 'eliminarMesa']);
+    Route::post('/asignarMesero/{id}', [MesaController::class, 'asignarMesero']);
     
     
 
-    ###################################### RUTAS DE ADMIN ######################################
+    ###################################### FIN RUTAS DE ADMIN ######################################
 
 
     ###################################### RUTAS DE MESERO ######################################
