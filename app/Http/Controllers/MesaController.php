@@ -48,8 +48,8 @@ class MesaController extends Controller
 
     public function verMesas()
     {
-        $mesas = Mesa::with('mesero')->get(); 
-        return view('ver_mesas', compact('mesas'));
+        $mesas = Mesa::with('mesero')->orderBy('numero_mesa', 'asc')->get(); 
+        return view('ver_mesas', compact('mesas')); 
     }
 
     public function eliminarMesa($id)
@@ -84,4 +84,17 @@ class MesaController extends Controller
 
         return redirect('/verMesas')->with('success', 'Mesero asignado exitosamente.');
     }  
+
+    public function editarMesa($id)
+    {
+        if(auth()->user()->rol_id !== 1) 
+        {
+            abort(403, 'Alto ahi chiavo! esta funcion es solo para Admins Vrgs');
+        }
+
+        $mesa = Mesa::findOrFail($id);
+        $meseros = User::where('rol_id', 3)->get(); 
+        
+        return view('editar_mesa', compact('mesa', 'meseros'));
+    }
 }

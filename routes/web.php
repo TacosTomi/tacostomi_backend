@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\PlatilloController;
 use App\Http\Controllers\MesaController;
+use App\Http\Controllers\RoleController;
 
 
 Route::get('/login', function () {
@@ -31,7 +32,7 @@ Route::middleware('auth')->group(function () //needed to be logged in para acces
         return view('registrarUsuario'); 
     });
 
-    
+    Route::get('/roles', [RoleController::class, 'index']);
     Route::post('/crearUsuario', [AuthController::class, 'registration']);
     Route::get('/crearPlatillo', [PlatilloController::class, 'create']);
     Route::post('/crearPlatillo', [PlatilloController::class, 'store']);
@@ -46,9 +47,9 @@ Route::middleware('auth')->group(function () //needed to be logged in para acces
     Route::post('/crearMesa', [MesaController::class, 'storeMesa']);
     Route::get('/verMesas', [MesaController::class, 'verMesas']);
     Route::delete('/eliminarMesa/{id}', [MesaController::class, 'eliminarMesa']);
-    Route::post('/asignarMesero/{id}', [MesaController::class, 'asignarMesero']);
-    
-    
+    Route::get('/editarMesa/{id}', [MesaController::class, 'editarMesa']);
+    Route::post('/editarMesa/{id}', [MesaController::class, 'asignarMesero']);    
+        
 
     ###################################### FIN RUTAS DE ADMIN ######################################
 
