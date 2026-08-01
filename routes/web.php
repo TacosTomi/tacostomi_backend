@@ -38,7 +38,7 @@ Route::middleware('auth')->group(function () //needed to be logged in para acces
     Route::post('/crearPlatillo', [PlatilloController::class, 'store']);
     Route::get('/usuarios', [UserController::class, 'index']);
 
-     Route::get('/platillosAdmin', [PlatilloController::class, 'verPlatillosAdmin']);
+    Route::get('/platillosAdmin', [PlatilloController::class, 'verPlatillosAdmin']);
     Route::get('/editarPlatillo/{id}', [PlatilloController::class, 'vistaModificarPlatillo']);
     Route::post('editarPlatillo/{id}', [PlatilloController::class, 'modifcarPlatillos']);
     Route::delete('eliminarPlatillo/{id}', [PlatilloController::class, 'eliminarPlatillo']);
