@@ -7,14 +7,17 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\PlatilloController;
 use App\Http\Controllers\MesaController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\HomeController;
 
 
-Route::get('/login', function () {
-    return view('login'); 
-})->name('login');
+route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('/login', function (){return view('login');})->name('login');
 
 Route::post('/login', [AuthController::class, 'loginWeb']);
+
 //Route::get('/categories', [CategoriaController::class, 'index']);
+
 Route::get('/platillos', [PlatilloController::class, 'verPlatillos']);
 
 
