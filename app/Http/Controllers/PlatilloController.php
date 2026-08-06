@@ -2,13 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Repositories\PlatilloRepository;
+use App\Http\Requests\StorePlatilloRequest;
+use App\Http\Requests\UpdateplatiloRequest;
 use Illuminate\Http\Request;
 use App\Models\Platillo;
 use App\Models\Categoria;
 use Illuminate\Support\Facades\Storage;
 
+
 class PlatilloController extends Controller
 {
+    protected $platilloRepository;
+    public function __construct(PlatilloRepository $platilloRepository)
+    {
+        $this->platilloRepository = $platilloRepository;
+    }
+    
+   public function indexApi(){
+       try {
+        
+        $platillos = $this->platilloRepository->obtenerPlatillos();
+       return response()->json([
+            'exito' => true,
+            'data'  => $platillos
+        ], 200);
+
+        } catch (\Exception $e) {
+        return response()->json([
+        "mensaje"=>$e->getMessage()
+        ],500);
+        }
+   }
+
+
     public function create()
     {
         if(auth()->user()->rol_id !== 1) {
@@ -20,25 +47,12 @@ class PlatilloController extends Controller
         return view('crear_platillo', compact('categorias'));
     }
 
-    public function store(Request $request)
+    public function store(StorePlatilloRequest $request)
     {
         if(auth()->user()->rol_id !== 1) {
             abort(403, 'Alto ahi chiavo! esta funcion es solo para Admins Vrgs');
         }
 
-        $request->validate([
-            'nombre' => 'required|string',       
-            'descripcion' => 'required|string',
-            'precio'=> 'required|numeric',       
-            'activo'=> 'required|boolean',      
-            'categoria_id'=> 'required|integer',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048'
-        ], [
-            
-            'image.image' => 'Requerimientos de imagenes no encontrados: El archivo debe ser una imagen válida.',
-            'image.mimes' => 'Requerimientos de imagenes no encontrados: Solo se aceptan formatos jpeg, png, jpg o webp.',
-            'image.max' => 'Requerimientos de imagenes no encontrados: La imagen es muy pesada (maximo 2MB).'
-        ]);
 
         $urlImage = null;
 
@@ -101,25 +115,12 @@ class PlatilloController extends Controller
         return view('editar_platillo', compact('platillo', 'categorias'));
     }
 
-    public function modifcarPlatillos(Request $request, $id)
+    public function modifcarPlatillos(UpdateplatiloRequest $request, $id)
     {
         if(auth()->user()->rol_id !==1) {
             abort(403, 'Alto ahi chiavo! Esto es solo para admins VRGS');
         }
 
-        $request->validate([
-            'nombre' => 'required|string',       
-            'descripcion' => 'required|string',
-            'precio'=> 'required|numeric',    
-            'activo'=> 'required|boolean',    
-            'categoria_id'=> 'required|integer',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048'
-        ], [
-            //warnings para imagenes 
-            'image.image' => 'Requerimientos de imagenes no encontrados: El archivo debe ser una imagen valida.',
-            'image.mimes' => 'Requerimientos de imagenes no encontrados: Solo se aceptan formatos jpeg, png, jpg o webp.',
-            'image.max' => 'Requerimientos de imagenes no encontrados: La imagen es muy pesada (máximo 2MB).'
-        ]);
 
         $platillo = Platillo::findOrFail($id);
         $platillo->nombre = $request->nombre;
