@@ -35,26 +35,30 @@ Route::middleware('auth')->group(function () //needed to be logged in para acces
         return view('registrarUsuario'); 
     });
 
-    Route::get('/roles', [RoleController::class, 'index']);
-    Route::post('/crearUsuario', [AuthController::class, 'registration']);
-    Route::get('/crearPlatillo', [PlatilloController::class, 'create']);
-    Route::post('/crearPlatillo', [PlatilloController::class, 'store']);
-    Route::get('/usuarios', [UserController::class, 'index']);
+    //Route::get('/roles', [RoleController::class, 'index']);                                   //Test
+    Route::post('/crearUsuario', [AuthController::class, 'registration']);                      // crear usuarios
+    Route::get('/crearPlatillo', [PlatilloController::class, 'create']);                        // crear platillos
+    Route::post('/crearPlatillo', [PlatilloController::class, 'store']);                        // almacena el platillo creado en la db
+    Route::get('/usuarios', [UserController::class, 'index']);                                  // muestra usuarios
 
-    Route::get('/platillosAdmin', [PlatilloController::class, 'verPlatillosAdmin']);
-    Route::get('/editarPlatillo/{id}', [PlatilloController::class, 'vistaModificarPlatillo']);
-    Route::post('editarPlatillo/{id}', [PlatilloController::class, 'modifcarPlatillos']);
-    Route::delete('eliminarPlatillo/{id}', [PlatilloController::class, 'eliminarPlatillo']);
+    Route::get('/platillosAdmin', [PlatilloController::class, 'verPlatillosAdmin']);            // menu vista administrador
+    Route::get('/editarPlatillo/{id}', [PlatilloController::class, 'vistaModificarPlatillo']);  // edita platillo desde menu vista admin
+    Route::post('editarPlatillo/{id}', [PlatilloController::class, 'modifcarPlatillos']);       // sube a db platillo editado desde menu vista admin
+    Route::delete('eliminarPlatillo/{id}', [PlatilloController::class, 'eliminarPlatillo']);    // elimina platillo desde menu admin
 
-    Route::get('/crearMesa', [MesaController::class, 'createMesa']);
-    Route::post('/crearMesa', [MesaController::class, 'storeMesa']);
-    Route::get('/verMesas', [MesaController::class, 'verMesas']);
-    Route::delete('/eliminarMesa/{id}', [MesaController::class, 'eliminarMesa']);
-    Route::get('/editarMesa/{id}', [MesaController::class, 'editarMesa']);
+    Route::get('/crearMesa', [MesaController::class, 'createMesa']);                            // crea una mesa
+    Route::post('/crearMesa', [MesaController::class, 'storeMesa']);                            // sube a db mesa creada
+    Route::get('/verMesas', [MesaController::class, 'verMesas']);                               // muestra mesas con meseros asignados
+    Route::delete('/eliminarMesa/{id}', [MesaController::class, 'eliminarMesa']);               // elimina mesa con meseros asignados
+    Route::get('/editarMesa/{id}', [MesaController::class, 'editarMesa']);                      // edita 
     Route::post('/editarMesa/{id}', [MesaController::class, 'asignarMesero']);    
         
 
     ###################################### FIN RUTAS DE ADMIN ######################################
+
+
+
+
 
 
     ###################################### RUTAS DE MESERO ######################################
@@ -62,10 +66,23 @@ Route::middleware('auth')->group(function () //needed to be logged in para acces
     {
         return view('mesero');
     });
+
+    ###################################### FIN RUTAS DE MESERO ##################################
+
+
+
+
+
+
+    ###################################### RUTAS DE COCINA ######################################
+
+
     Route::get('/cocina', function()
     {
         return view('cocina');
     });
+
+    ###################################### FIN RUTAS DE COCINA ##################################
 
     Route::get('/logout', [AuthController::class, 'logoutWeb']);
 });
