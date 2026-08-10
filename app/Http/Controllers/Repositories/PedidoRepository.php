@@ -2,14 +2,13 @@
 namespace App\Http\Controllers\Repositories;
 
 use App\Models\Pedidos;
-use App\Models\Platillo;
 
 final class PedidoRepository 
 {
 
 
     public function obtenerPedidos() {
-        return Platillo::all();
+        return Pedidos::all();
     }   
 
 
@@ -32,6 +31,37 @@ final class PedidoRepository
         }
 
     }
+     public function obtenerPedidoPorId($id){
+       
+        return Pedidos::findOrFail($id);
+    }
+    public function actualizarPedido($id, array $data){
+        $pedido = Pedidos::findOrFail($id);
+        $pedido->update($data);
+        return $pedido;
+        
+    }
+    public function actualizarEstado($id, $estado){
+        $pedido = Pedidos::findOrFail($id);
+        $pedido->estado = $estado;
+        $pedido->save();
+        return $pedido;
+    }
+    public function eliminarPedido($id){
+        $pedido = Pedidos::findOrFail($id);
+        $pedido->delete();
+        return true;
+    }
+    public function obtenerPedidosPorCliente($clienteId){
+        return Pedidos::where('cliente_id', $clienteId)
+        ->orderBy('fecha_hora')
+        ->get();
+    }
+
+
+
+    
+
     
 
 

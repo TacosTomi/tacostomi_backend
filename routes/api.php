@@ -7,6 +7,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PlatilloController;
 use App\Http\Controllers\Repositories\PedidoRepository;
+use App\Http\Controllers\PedidosController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -19,12 +20,22 @@ Route::get('/categorias', [CategoriaController::class, 'index']);
 Route::post('/login', [AuthController::class, 'login']);
 
 
-Route::get('/platillos', [PlatilloController::class, 'index']);
-Route::get('/pedidos', [PedidoRepository::class, 'index']);
-Route::post('/crearPedido', [PedidoRepository::class, 'create']);
+Route::get('/platillos', [PlatilloController::class, 'indexApi']);
+
+Route::get('/pedidos', [PedidosController::class, 'indexApi']);
+Route::post('/crearPedido', [PedidosController::class, 'createApi']);
+Route::get('/pedidos/cliente/{clienteId}', [PedidosController::class, 'obtenerPedidosPorCliente']);
+Route::get('/pedidos/{id}', [PedidosController::class, 'show']);
+Route::put('/pedidos/{id}', [PedidosController::class, 'update']);
+Route::patch('/pedidos/{id}/estado', [PedidosController::class, 'updateEstado']);
+Route::delete('/pedidos/{id}', [PedidosController::class, 'destroy']);
+
 
 Route::middleware('auth:sanctum')->group(function() 
     {
         Route::get('/roles', [RoleController::class, 'index']);
         Route::post('/crearUsuario', [AuthController::class, 'registration']);
     });
+
+
+

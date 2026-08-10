@@ -36,7 +36,7 @@ class PlatilloController extends Controller
    }
 
 
-    public function create()
+    public function createApi()
     {
         if(auth()->user()->rol_id !== 1) {
             abort(403, 'Alto ahi chiavo! esta funcion es solo para Admins Vrgs');
