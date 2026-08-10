@@ -27,20 +27,28 @@ Route::middleware('auth')->group(function () //needed to be logged in para acces
     ###################################### RUTAS DE ADMIN ######################################
     Route::get('/admin', function () 
     {
+        if(auth()->user()->rol_id != 1)
+        {
+            abort(403, 'Alto ahi Chiavo! esta funcion es solo para Admins vrgs');
+        }
+        
         return view('admin_home');
     });
 
-    Route::get('/crearUsuario', function () 
+    Route::get('/crearUsuario', function ()                                                     // vista para agregar usuarios
     {
         return view('registrarUsuario'); 
     });
 
     //Route::get('/roles', [RoleController::class, 'index']);                                   //Test
     Route::post('/crearUsuario', [AuthController::class, 'registration']);                      // crear usuarios
+    Route::get('/usuarios', [UserController::class, 'index']);                                  // muestra usuarios
+    Route::get('/editarUsuario/{id}', [UserController::class, 'vistaModificarUsuario']);         // muestra front de editar usuario
+    Route::post('/editarUsuario/{id}', [UserController::class, 'modificarUsuario']);              // edita usuario
+    Route::delete('/eliminarUsuario/{id}', [UserController::class, 'eliminarUsuario']);                 // elimina usuario
+
     Route::get('/crearPlatillo', [PlatilloController::class, 'create']);                        // crear platillos
     Route::post('/crearPlatillo', [PlatilloController::class, 'store']);                        // almacena el platillo creado en la db
-    Route::get('/usuarios', [UserController::class, 'index']);                                  // muestra usuarios
-
     Route::get('/platillosAdmin', [PlatilloController::class, 'verPlatillosAdmin']);            // menu vista administrador
     Route::get('/editarPlatillo/{id}', [PlatilloController::class, 'vistaModificarPlatillo']);  // edita platillo desde menu vista admin
     Route::post('editarPlatillo/{id}', [PlatilloController::class, 'modifcarPlatillos']);       // sube a db platillo editado desde menu vista admin

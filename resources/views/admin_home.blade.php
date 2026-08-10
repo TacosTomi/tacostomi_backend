@@ -52,23 +52,20 @@
         
         <p>¡Bienvenido de vuelta, <strong>{{ auth()->user()->nombre }}</strong>!</p>
 
-        <div class="btnsPanel">
-            <a  href="/crearUsuario" class="btn-add">+ Agregar Nuevo Personal</a>
-        </div>
         <div class="btnsPanel">        
-            <a  href="/usuarios" class="btn-add" style="background-color: #e9c46a; color: #264653;">Ver Lista de Personal</a>
+            <a  href="/usuarios" class="btn-add" style="background-color: #e9c46a; color: #264653;">Administracion de Personal 🧑🏻‍💼👩🏼‍💼</a>
         </div>
     
         <div class="btnsPanel">
-            <a href="/crearPlatillo" class="btn-add" style="background-color: #e9c46a; color: #264653;">Agregar platillos</a>
+            <a href="/crearPlatillo" class="btn-add" style="background-color: #e9c46a; color: #264653;">Administracion de Pedidos 🍹🧾💵</a>
         </div>
 
         <div class="btnsPanel">
-            <a href="/platillosAdmin" class="btn-add" style="background-color: #e9c46a; color: #264653;">Ver platillos</a>
+            <a href="/platillosAdmin" class="btn-add" style="background-color: #e9c46a; color: #264653;">Administracion de Platillos 🧉🌮🍛</a>
         </div>
 
         <div class="btnsPanel">
-            <a href="/verMesas" class="btn-add" style="background-color: #e9c46a; color: #264653;">Ver Mesas</a>
+            <a href="/verMesas" class="btn-add" style="background-color: #e9c46a; color: #264653;">Administracion de Mesas</a>
         </div>
 
         <a href="/logout" class="logout-link">Cerrar Sesión</a>

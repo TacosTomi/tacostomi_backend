@@ -14,7 +14,7 @@
         }
 
         /* Estilos de la barra de navegación / botones */
-        .nav-buttons {
+        .nav-button {
             display: flex;
             justify-content: center;
             gap: 15px;
@@ -41,14 +41,8 @@
         .btn-admin { background-color: #343a40; }
         .btn-admin:hover { background-color: #23272b; }
 
-        .btn-mesero { background-color: #28a745; }
-        .btn-mesero:hover { background-color: #218838; }
-
-        .btn-cajero { background-color: #fd7e14; }
-        .btn-cajero:hover { background-color: #e06b0d; }
-
-        /* Contenedor del Video */
-        .video-container {
+        /* Contenedor de la Imagen */
+        .image-container {
             max-width: 800px;
             margin: 0 auto;
             min-height: 250px;
@@ -58,13 +52,12 @@
             flex-direction: column;
         }
 
-        .home-video {
+        .home-image {
             width: 100%;
             max-width: 720px;
+            height: auto;
             border-radius: 12px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-            cursor: pointer;
-            outline: none;
         }
 
         .fallback-text {
@@ -81,57 +74,29 @@
 </head>
 <body>
 
-    <!-- Botones de Navegación -->
-    <div class="nav-buttons">
-        <a href="/admin" class="btn btn-admin">Administrador</a>
-        <a href="/usuarios" class="btn btn-mesero">Meseros</a>
-        <a href="/cajero" class="btn btn-cajero">Cajero</a>
+    <!-- Botones de Navegacion -->
+    <div class="nav-button">
+        <a href="/admin" class="btn btn-admin">INICIAR SESION</a>
     </div>
 
     <h1>Bienvenido a Tacos Tomi</h1>
 
-    <div class="video-container">
-        <!-- Reproductor de Video desde CloudFront -->
-        <video id="welcomeVideo" class="home-video" autoplay controls preload="auto">
-            <source src="{{ $videoUrl }}" type="video/mp4">
-            Tu navegador no soporta la reproducción de video.
-        </video>
+    <div class="image-container">
+        <!-- Imagen desde CloudFront -->
+        <img id="welcomeImage" class="home-image" src="{{ $imageUrl }}" alt="Bienvenido a Tacos Tomi">
         
         <!-- Mensaje de Fallback -->
         <div id="fallbackMessage" class="fallback-text">
-            Welcome to Tacos Tomi Image/Video cannot be loaded right now.
+            IMAGEN NO PUEDE SER CARGADA AHORA CHIAVO.
         </div>
     </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const video = document.getElementById("welcomeVideo");
+            const img = document.getElementById("welcomeImage");
             const fallback = document.getElementById("fallbackMessage");
 
-            // --- 1. Lógica de Repetición (5 veces) ---
-            let loopCount = 0;
-            const MAX_LOOPS = 3;
-
-            video.addEventListener("ended", () => {
-                loopCount++;
-                if (loopCount < MAX_LOOPS) {
-                    video.currentTime = 0;
-                    video.play();
-                } else {
-                    video.pause(); // Se detiene después de 3 repeticiones
-                }
-            });
-
-            // Reiniciar repeticiones al dar click en el video
-            video.addEventListener("click", () => {
-                if (video.paused || loopCount >= MAX_LOOPS) {
-                    loopCount = 0;
-                    video.currentTime = 0;
-                    video.play();
-                }
-            });
-
-            // --- 2. Lógica de Protección Anti-Flood (100 clicks/reloads) ---
+            // --- Lógica de Protección Anti-Flood (10 peticiones rápidas) ---
             const MAX_REQUESTS = 10;
             const TIME_WINDOW = 2000; // 2 segundos
 
@@ -147,13 +112,13 @@
                 showFallback();
             }
 
-            // Fallback si el video falla al cargar de CloudFront
-            video.onerror = () => {
+            // Fallback si la imagen falla al cargar de CloudFront
+            img.onerror = () => {
                 showFallback();
             };
 
             function showFallback() {
-                video.style.display = "none";
+                img.style.display = "none";
                 fallback.style.display = "block";
             }
         });
