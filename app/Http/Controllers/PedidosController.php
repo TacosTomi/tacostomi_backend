@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Repositories\PedidoRepository;
 use App\Http\Requests\StorePedidoRequest;
-
+use Illuminate\Http\Request;
 
 class PedidosController extends Controller
 {
@@ -16,8 +16,6 @@ class PedidosController extends Controller
     {
         $this->pedidoRepository = $pedidoRepository;
     }
-
-
     public function indexApi(){
     
         try {
@@ -34,7 +32,7 @@ class PedidosController extends Controller
     }
 
 
-    public function create(StorePedidoRequest $request){
+    public function createApi(StorePedidoRequest $request){
 
         try {
             $pedido = $this->pedidoRepository->crearPedido($request->all());
@@ -51,6 +49,84 @@ class PedidosController extends Controller
         }
 
     }
-   
+    public function show($id){
+        try {
+            $pedido = $this->pedidoRepository->obtenerPedidoPorId($id);
+            return response()->json([
+                'exito' => true,
+                'data'  => $pedido
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                "mensaje"=>$e->getMessage()
+            ],500);
+        }
+    }
+     
+    public function update(Request $request, $id){
+       $request->validate([
+            'mesa_id' => 'required|integer',       
+            'cliente_id' => 'required|integer',
+            'mesero_id'=> 'required|integer',    
+            'estado'=> 'required|string',    
+            'total'=> 'required|numeric',
+            'fecha_hora' => 'required|date'
+        ]);
+        try {
+            $pedido = $this->pedidoRepository->actualizarPedido($id, $request->all());
+            return response()->json([
+                'exito' => true,
+                'data'  => $pedido
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                "mensaje"=>$e->getMessage()
+            ],500);
+        }
+    }
 
-}
+        public function updateEstado(Request $request, $id){
+            $request->validate([
+                 'estado'=> 'required|string|in:RECIBIDO,EN_PREPARACION,LISTO,COMPLETADO,CANCELADO'
+            ]);
+            try {
+                $pedido = $this->pedidoRepository->actualizarEstado($id, $request->estado);
+                return response()->json([
+                    'exito' => true,
+                    'data'  => $pedido
+                ], 200);
+            } catch (\Exception $e) {
+                return response()->json([
+                    "mensaje"=>$e->getMessage()
+                ],500);
+            }
+        }
+        public function destroy($id){
+            try {
+                $this->pedidoRepository->eliminarPedido($id);
+                return response()->json([
+                    'exito' => true,
+                    'mensaje'  => 'Pedido eliminado correctamente'
+                ], 200);
+            } catch (\Exception $e) {
+                return response()->json([
+                    "mensaje"=>$e->getMessage()
+                ],500);
+            }
+        }
+        public function obtenerPedidosPorCliente($clienteId){
+            try {
+                $pedidos = $this->pedidoRepository->obtenerPedidosPorCliente($clienteId);
+                return response()->json([
+                    'exito' => true,
+                    'data'  => $pedidos
+                ], 200);
+            } catch (\Exception $e) {
+                return response()->json([
+                    "mensaje"=>$e->getMessage()
+                ],500);
+            }
+        }
+    }
+
+

@@ -34,10 +34,10 @@ class StorePedidoRequest extends FormRequest
     {
          return [
             'mesa_id' => 'required|integer',       
-            'clinete_id' => 'required|integer',
+            'cliente_id' => 'required|integer',
             'mesero_id'=> 'required|integer',    
             'estado'=> 'required|string',    
-            'total'=> 'required|decimal',
+            'total'=> 'required|numeric',
             'fecha_hora' => 'required|date'
     
         ];
