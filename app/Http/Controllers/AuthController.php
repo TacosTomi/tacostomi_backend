@@ -58,6 +58,39 @@ class AuthController extends Controller
         return redirect('/login');
     }
 
+    // -------- log in  API para la app de androit -----------
+    public function login(Request $request)
+    {
+        $request->validate([
+            'correo' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        $user = User::where('correo', $request->correo)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password_hash)) {
+            return response()->json([
+                'exito' => false,
+                'mensaje' => 'Credenciales incorrectas'
+            ], 401);
+        }
+
+        $token = $user->createToken('token_app')->plainTextToken;
+
+        return response()->json([
+            'exito' => true,
+            'data' => [
+                'token' => $token,
+                'usuario' => [
+                    'id' => $user->id,
+                    'nombre' => $user->nombre,
+                    'correo' => $user->correo,
+                    'rol_id' => $user->rol_id,
+                ]
+            ]
+        ], 200);
+    }
+
     // -------- creation of user ----------
 
     public function registration(Request $request)
@@ -86,5 +119,48 @@ class AuthController extends Controller
         return redirect('/admin'); 
     }
 
+    // -------- creation of user API para la app de android ----------
+     public function registrationApi(Request $request)
+    {
+        if ($request->user()->rol_id !== 1) {
+            return response()->json([
+                'exito' => false,
+                'mensaje' => 'Solo administradores pueden registrar usuarios'
+            ], 403);
+        }
+
+        $request->validate([
+            'nombre' => 'required|string',
+            'correo' => 'required|email|unique:usuarios,correo',
+            'password' => 'required|min:6|confirmed',
+            'rol_id' => 'required|integer'
+        ]);
+
+        $user = User::create([
+            'nombre' => $request->nombre,
+            'correo' => $request->correo,
+            'password_hash' => Hash::make($request->password),
+            'rol_id' => $request->rol_id,
+            'foto_perfil' => null
+        ]);
+
+        return response()->json([
+            'exito' => true,
+            'data' => [
+                'id' => $user->id,
+                'nombre' => $user->nombre,
+                'correo' => $user->correo,
+                'rol_id' => $user->rol_id,
+            ]
+        ], 200);
+    }
+
+    }
+
+
+
+    
+
+
    
-}
+
