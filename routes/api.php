@@ -37,5 +37,11 @@ Route::middleware('auth:sanctum')->group(function()
         Route::post('/crearUsuario', [AuthController::class, 'registration']);
     });
 
+Route::middleware('auth:sanctum')->group(function() 
+    {
+        Route::get('/roles', [RoleController::class, 'index']);
+        Route::post('/crearUsuario', [AuthController::class, 'registrationApi']);
+    });    
+
 
 
