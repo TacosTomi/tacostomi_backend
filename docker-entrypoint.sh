@@ -2,7 +2,7 @@
 set -e
 
 # Reemplazar el puerto en nginx con el asignado por Render
-sed -i "s/8080/${PORT:-8080}/g" /etc/nginx/conf.d/default.conf
+sed -i "s/8080/${PORT:-8080}/g" /etc/nginx/nginx.conf
 
 # Cachear configuración y vistas en producción
 php artisan config:cache
