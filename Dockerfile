@@ -1,4 +1,4 @@
-FROM php:8.2-fpm-alpine
+FROM php:8.4-fpm-alpine
 
 # Dependencias del sistema y utilidades
 RUN apk add --no-cache \
