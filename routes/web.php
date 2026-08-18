@@ -8,6 +8,9 @@ use App\Http\Controllers\PlatilloController;
 use App\Http\Controllers\MesaController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InsumoController;
+use App\Models\Insumo;
+use App\Http\Controllers\PedidosController;
 
 
 route::get('/', [HomeController::class, 'index'])->name('home');
@@ -31,8 +34,10 @@ Route::middleware('auth')->group(function () //needed to be logged in para acces
         {
             abort(403, 'Alto ahi Chiavo! esta funcion es solo para Admins vrgs');
         }
+
+        $insumosBajos = Insumo::bajoMinimo()->count();
         
-        return view('admin_home');
+        return view('admin_home', compact('insumosBajos'));
     });
 
     Route::get('/logout', [AuthController::class, 'logoutWeb']);
@@ -50,7 +55,7 @@ Route::middleware('auth')->group(function () //needed to be logged in para acces
     Route::post('/editarUsuario/{id}', [UserController::class, 'modificarUsuario']);            // edita usuario
     Route::delete('/eliminarUsuario/{id}', [UserController::class, 'eliminarUsuario']);         // elimina usuario
 
-    Route::get('/crearPlatillo', [PlatilloController::class, 'create']);                        // crear platillos
+    Route::get('/crearPlatillo', [PlatilloController::class, 'createApi']);                     // crear platillos
     Route::post('/crearPlatillo', [PlatilloController::class, 'store']);                        // almacena el platillo creado en la db
     Route::get('/platillosAdmin', [PlatilloController::class, 'verPlatillosAdmin']);            // menu vista administrador
     Route::get('/editarPlatillo/{id}', [PlatilloController::class, 'vistaModificarPlatillo']);  // edita platillo desde menu vista admin
@@ -67,7 +72,18 @@ Route::middleware('auth')->group(function () //needed to be logged in para acces
     Route::delete('/eliminarMesa/{id}', [MesaController::class, 'eliminarMesa']);               // elimina mesa con meseros asignados
     Route::get('/editarMesa/{id}', [MesaController::class, 'editarMesa']);                      // edita 
     Route::post('/editarMesa/{id}', [MesaController::class, 'asignarMesero']);    
+
+    Route::get('/insumos', [InsumoController::class, 'index']);
+    Route::get('/crearInsumo', [InsumoController::class, 'create']);
+    Route::post('/crearInsumo', [InsumoController::class, 'store']);
+    Route::get('/editarInsumo/{id}', [InsumoController::class, 'edit']);
+    Route::post('/editarInsumo/{id}', [InsumoController::class, 'update']);
+    Route::get('/insumos/{id}/movimiento', [InsumoController::class, 'movimiento']);
+    Route::post('/insumos/{id}/movimiento', [InsumoController::class, 'registrarMovimiento']);
         
+    Route::get('/pedidosAdmin', [PedidosController::class, 'verPedidosAdmin']);
+    Route::post('/pedidosAdmin/{id}/estado', [PedidosController::class, 'actualizarEstadoWeb']);
+    Route::delete('/pedidosAdmin/{id}', [PedidosController::class, 'eliminarPedidoWeb']);    
 
     ###################################### FIN RUTAS DE ADMIN ######################################
 

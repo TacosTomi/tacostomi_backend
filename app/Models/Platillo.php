@@ -24,4 +24,10 @@ class Platillo extends Model
         return $this->belongsTo(Categoria::class, 'categoria_id');
     }
 
+    public function insumos()
+    {
+        return $this->belongsToMany(Insumo::class, 'platillo_insumos', 'platillo_id', 'insumo_id')
+            ->withPivot('cantidad_necesaria');
+    }
+
 }
