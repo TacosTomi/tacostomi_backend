@@ -52,6 +52,13 @@
         
         <p>¡Bienvenido de vuelta, <strong>{{ auth()->user()->nombre }}</strong>!</p>
 
+        @if(($insumosBajos ?? 0) > 0)
+            <div style="background:#fff3cd; border:1px solid #ffc107; color:#664d03; padding:10px; border-radius:6px; margin-bottom:20px; text-align:left;">
+                Alerta de desabasto: hay <strong>{{ $insumosBajos }}</strong> insumo(s) en o bajo el mínimo.
+                <a href="/insumos?solo_bajos=1" style="color:#664d03; font-weight:bold;">Revisar ahora</a>
+            </div>
+        @endif
+
         <div class="btnsPanel">        
             <a  href="/usuarios" class="btn-add" style="background-color: #e9c46a; color: #264653;">Administracion de Personal 🧑🏻‍💼👩🏼‍💼</a>
         </div>
@@ -66,6 +73,10 @@
 
         <div class="btnsPanel">
             <a href="/mapaAdmin" class="btn-add" style="background-color: #e9c46a; color: #264653;">Administracion de Mesas</a>
+        </div>
+
+        <div class="btnsPanel">
+            <a href="/insumos" class="btn-add" style="background-color: #e9c46a; color: #264653;">Administracion de Insumos</a>
         </div>
 
         <a href="/logout" class="logout-link">Cerrar Sesión</a>
