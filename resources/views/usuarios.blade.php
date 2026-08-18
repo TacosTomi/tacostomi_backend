@@ -105,10 +105,10 @@
                                 Mesero
                                 @break
                             @case(4)
-                                Garrotero
+                                Cosinero
                                 @break
                             @case(5)
-                                Cocinero
+                                Cliente
                                 @break
                             @default
                                 Desconocido

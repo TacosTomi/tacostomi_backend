@@ -18,7 +18,7 @@ Route::get('/categorias', [CategoriaController::class, 'index']);
 //Route::get('/roles', [RoleController::class, 'index']);
 
 Route::post('/login', [AuthController::class, 'login']);
-
+Route::post('/registro', [AuthController::class, 'registro']);
 
 Route::get('/platillos', [PlatilloController::class, 'indexApi']);
 
@@ -33,15 +33,11 @@ Route::delete('/pedidos/{id}', [PedidosController::class, 'destroy']);
 
 Route::middleware('auth:sanctum')->group(function() 
     {
+        
         Route::get('/roles', [RoleController::class, 'index']);
         Route::post('/crearUsuario', [AuthController::class, 'registration']);
     });
 
-Route::middleware('auth:sanctum')->group(function() 
-    {
-        Route::get('/roles', [RoleController::class, 'index']);
-        Route::post('/crearUsuario', [AuthController::class, 'registrationApi']);
-    });    
 
 
 
