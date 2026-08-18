@@ -17,7 +17,7 @@ class HomeController extends Controller
         */
 
         // imagen
-        $imageUrl = config('filesystems.disks.s3.url') . '/media/home_image.jpeg';
+        $imageUrl = config('filesystems.disks.s3.url') . '/media/home_image2.jpeg';
 
         return view('home', compact('imageUrl'));
 
