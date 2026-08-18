@@ -32,7 +32,7 @@
                             
                             <div class="mb-3">
                                 <label for="numero_mesa" class="form-label fw-bold">Número de Mesa</label>
-                                <input type="number" class="form-control" id="numero_mesa" name="numero_mesa" value="{{ old('numero_mesa') }}" required placeholder="Ej. 1">
+                                <input type="number" class="form-control" id="numero_mesa" name="numero_mesa" value="{{ old('$sugerencia') }}" required placeholder="Ej. 1">
                             </div>
 
                             <div class="mb-3">

@@ -13,7 +13,7 @@ class UserController extends Controller
         {
             abort(403, 'Alto ahí Chiavo! Esta función es solo para Admins.');
         }
-        $usuarios = User::all(); 
+        $usuarios = User::where('rol_id', '!=', 5)->get(); 
 
         return view('usuarios', compact('usuarios'));
     }

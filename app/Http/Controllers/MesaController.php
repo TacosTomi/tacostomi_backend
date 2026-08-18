@@ -20,8 +20,15 @@ class MesaController extends Controller
             abort(403, 'Alto ahi chiavo! esta funcion es solo para Admins Vrgs');
         }
 
-        $meseros = User::where('rol_id', 3)->get(); 
-        return view('crear_mesa', compact('meseros'));
+        $meseros = User::where('rol_id', 3)->get();
+        $numerosOcupados = Mesa::pluck('numero_mesa')->toArray();
+        $sugerencia = 1;
+
+        while (in_array($sugerencia, $numerosOcupados))
+        {
+            $sugerencia ++;
+        }
+        return view('crear_mesa', compact('meseros', 'sugerencia'));
     }
 
     public function storeMesa(Request $require)
@@ -32,7 +39,7 @@ class MesaController extends Controller
         }
 
         $require->validate([
-            'numero_mesa' => 'required|integer|unique:mesas,numero_mesa',
+            'numero_mesa' => 'required|integer|min:1|unique:mesas,numero_mesa',
             'estado' => 'required|string|in:disponible,ocupada,reservada',
             'mesero_id' => 'nullable|integer|exists:usuarios,id',
         ]);
@@ -44,7 +51,7 @@ class MesaController extends Controller
         ]);
 
 
-        return redirect('/admin')->with('success', 'Mesa creada exitosamente.');
+        return redirect('/verMesas')->with('success', 'Mesa creada exitosamente.');
     }
 
 
