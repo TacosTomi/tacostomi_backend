@@ -54,9 +54,7 @@
                 <label>Rol en el Restaurante:</label>
                 <select name="rol_id" required>
                     <option value="1">Administrador</option>
-                    <option value="2">Cajero</option>
                     <option value="3" selected>Mesero</option>
-                    <option value="4">Garrotero</option>
                     <option value="5">Cocina</option>
                 </select>
             </div>

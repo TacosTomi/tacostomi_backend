@@ -61,9 +61,7 @@
                 <label for="rol_id" class="form-label fw-semibold">Rol del Usuario</label>
                 <select name="rol_id" id="rol_id" class="form-select" required>
                     <option value="1" {{ $user->rol_id == 1 ? 'selected' : '' }}>Gerente</option>
-                    <option value="2" {{ $user->rol_id == 2 ? 'selected' : '' }}>Cajero</option>
                     <option value="3" {{ $user->rol_id == 3 ? 'selected' : '' }}>Mesero</option>
-                    <option value="4" {{ $user->rol_id == 4 ? 'selected' : '' }}>Cocinero</option>
                     <option value="5" {{ $user->rol_id == 5 ? 'selected' : '' }}>Cliente</option>
                 </select>
             </div>
