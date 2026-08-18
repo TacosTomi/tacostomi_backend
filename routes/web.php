@@ -8,6 +8,7 @@ use App\Http\Controllers\PlatilloController;
 use App\Http\Controllers\MesaController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PedidosController;
 
 
 route::get('/', [HomeController::class, 'index'])->name('home');
@@ -50,7 +51,7 @@ Route::middleware('auth')->group(function () //needed to be logged in para acces
     Route::post('/editarUsuario/{id}', [UserController::class, 'modificarUsuario']);            // edita usuario
     Route::delete('/eliminarUsuario/{id}', [UserController::class, 'eliminarUsuario']);         // elimina usuario
 
-    Route::get('/crearPlatillo', [PlatilloController::class, 'create']);                        // crear platillos
+    Route::get('/crearPlatillo', [PlatilloController::class, 'createApi']);                     // crear platillos
     Route::post('/crearPlatillo', [PlatilloController::class, 'store']);                        // almacena el platillo creado en la db
     Route::get('/platillosAdmin', [PlatilloController::class, 'verPlatillosAdmin']);            // menu vista administrador
     Route::get('/editarPlatillo/{id}', [PlatilloController::class, 'vistaModificarPlatillo']);  // edita platillo desde menu vista admin
@@ -67,7 +68,9 @@ Route::middleware('auth')->group(function () //needed to be logged in para acces
     Route::delete('/eliminarMesa/{id}', [MesaController::class, 'eliminarMesa']);               // elimina mesa con meseros asignados
     Route::get('/editarMesa/{id}', [MesaController::class, 'editarMesa']);                      // edita 
     Route::post('/editarMesa/{id}', [MesaController::class, 'asignarMesero']);    
-        
+    Route::get('/pedidosAdmin', [PedidosController::class, 'verPedidosAdmin']);
+    Route::post('/pedidosAdmin/{id}/estado', [PedidosController::class, 'actualizarEstadoWeb']);
+    Route::delete('/pedidosAdmin/{id}', [PedidosController::class, 'eliminarPedidoWeb']);    
 
     ###################################### FIN RUTAS DE ADMIN ######################################
 

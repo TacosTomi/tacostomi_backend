@@ -35,6 +35,11 @@ final class PedidoRepository
        
         return Pedidos::findOrFail($id);
     }
+    public function obtenerPedidosParaAdmin() {
+    return Pedidos::with(['mesa', 'cliente', 'mesero'])
+        ->orderBy('fecha_hora', 'desc')
+        ->get();
+}
     public function actualizarPedido($id, array $data){
         $pedido = Pedidos::findOrFail($id);
         $pedido->update($data);
