@@ -90,7 +90,7 @@
                 Filtrar Búsqueda
             </div>
             <div class="card-body">
-                <form action="/platillos" method="GET" class="row g-3 align-items-end">
+                <form action="/platillosAdmin" method="GET" class="row g-3 align-items-end">
         
                     <div class="col-md-3">
                         <label for="categoria_id" class="form-label fw-semibold">Categoría</label>
@@ -120,9 +120,8 @@
 
                     <div class="col-md-3 d-flex gap-2">
                         <button type="submit" class="btn btn-primary w-100 fw-bold">Aplicar</button>
-                        <a href="/platillos" class="btn btn-outline-secondary w-100">Limpiar</a>
+                        <a href="/platillosAdmin" class="btn btn-outline-secondary w-100">Limpiar</a>                    
                     </div>
-                    
                 </form>
             </div>
         </div>

@@ -19,21 +19,22 @@ class PlatilloController extends Controller
         $this->platilloRepository = $platilloRepository;
     }
     
-   public function indexApi(){
-       try {
-        
-        $platillos = $this->platilloRepository->obtenerPlatillos();
-       return response()->json([
-            'exito' => true,
-            'data'  => $platillos
-        ], 200);
-
-        } catch (\Exception $e) {
+    public function indexApi()
+    {
+        try {
+            
+            $platillos = $this->platilloRepository->obtenerPlatillos();
         return response()->json([
-        "mensaje"=>$e->getMessage()
-        ],500);
-        }
-   }
+                'exito' => true,
+                'data'  => $platillos
+            ], 200);
+
+            } catch (\Exception $e) {
+            return response()->json([
+            "mensaje"=>$e->getMessage()
+            ],500);
+            }
+    }
 
 
     public function createApi()
@@ -84,22 +85,26 @@ class PlatilloController extends Controller
         return view('ver_platillos', compact('platillos'));
     }
 
-    public function verPlatillosAdmin(Request $request)
+    public function verPlatillosAdmin(\Illuminate\Http\Request $request)
     {
         $categorias = Categoria::all();
+        
         $query = Platillo::with('categoria');
 
         if ($request->filled('categoria_id')) {
             $query->where('categoria_id', $request->categoria_id);
         }
+
         if ($request->filled('precio_max')) {
             $query->where('precio', '<=', $request->precio_max);
         }
+
         if ($request->filled('disponibilidad')) {
-            $query->where('activo', $request->disponibilidad);  
+            $query->where('activo', $request->disponibilidad);
         }
 
         $platillos = $query->get();
+
         return view('ver_platillosAdmin', compact('platillos', 'categorias'));
     }
 
