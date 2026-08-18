@@ -49,6 +49,28 @@ class PedidosController extends Controller
         }
 
     }
+    public function verPedidosAdmin()
+{
+    $pedidos = $this->pedidoRepository->obtenerPedidosParaAdmin();
+    return view('pedidos_admin', compact('pedidos'));
+}
+
+public function actualizarEstadoWeb(Request $request, $id)
+{
+    $request->validate([
+    'estado' => 'required|string|in:recibido,en preparación,listo,entregado'
+]);
+
+    $this->pedidoRepository->actualizarEstado($id, $request->estado);
+
+    return redirect('/pedidosAdmin')->with('success', 'Estado actualizado.');
+}
+
+public function eliminarPedidoWeb($id)
+{
+    $this->pedidoRepository->eliminarPedido($id);
+    return redirect('/pedidosAdmin')->with('success', 'Pedido eliminado.');
+}
     public function show($id){
         try {
             $pedido = $this->pedidoRepository->obtenerPedidoPorId($id);
@@ -87,8 +109,8 @@ class PedidosController extends Controller
 
         public function updateEstado(Request $request, $id){
             $request->validate([
-                 'estado'=> 'required|string|in:RECIBIDO,EN_PREPARACION,LISTO,COMPLETADO,CANCELADO'
-            ]);
+             'estado'=> 'required|string|in:recibido,en preparación,listo,entregado'
+              ]);
             try {
                 $pedido = $this->pedidoRepository->actualizarEstado($id, $request->estado);
                 return response()->json([

@@ -64,8 +64,7 @@
         </div>
     
         <div class="btnsPanel">
-            <a href="/crearPlatillo" class="btn-add" style="background-color: #e9c46a; color: #264653;">Administracion de Pedidos 🍹🧾💵</a>
-        </div>
+           <a href="/pedidosAdmin" class="btn-add" style="background-color: #e9c46a; color: #264653;">Administracion de Pedidos 🍹🧾💵</a>        </div>
 
         <div class="btnsPanel">
             <a href="/platillosAdmin" class="btn-add" style="background-color: #e9c46a; color: #264653;">Administracion de Platillos 🧉🌮🍛</a>
