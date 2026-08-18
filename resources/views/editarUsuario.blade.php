@@ -63,8 +63,8 @@
                     <option value="1" {{ $user->rol_id == 1 ? 'selected' : '' }}>Gerente</option>
                     <option value="2" {{ $user->rol_id == 2 ? 'selected' : '' }}>Cajero</option>
                     <option value="3" {{ $user->rol_id == 3 ? 'selected' : '' }}>Mesero</option>
-                    <option value="4" {{ $user->rol_id == 4 ? 'selected' : '' }}>Garrotero</option>
-                    <option value="5" {{ $user->rol_id == 5 ? 'selected' : '' }}>Cocinero</option>
+                    <option value="4" {{ $user->rol_id == 4 ? 'selected' : '' }}>Cocinero</option>
+                    <option value="5" {{ $user->rol_id == 5 ? 'selected' : '' }}>Cliente</option>
                 </select>
             </div>
 

@@ -118,43 +118,38 @@ class AuthController extends Controller
 
         return redirect('/admin'); 
     }
-
-    // -------- creation of user API para la app de android ----------
-     public function registrationApi(Request $request)
+    
+     public function registro(Request $request)
     {
-        if ($request->user()->rol_id !== 1) {
-            return response()->json([
-                'exito' => false,
-                'mensaje' => 'Solo administradores pueden registrar usuarios'
-            ], 403);
-        }
-
         $request->validate([
             'nombre' => 'required|string',
             'correo' => 'required|email|unique:usuarios,correo',
             'password' => 'required|min:6|confirmed',
-            'rol_id' => 'required|integer'
         ]);
 
         $user = User::create([
             'nombre' => $request->nombre,
             'correo' => $request->correo,
             'password_hash' => Hash::make($request->password),
-            'rol_id' => $request->rol_id,
+            'rol_id' => 5, // Cliente. Nunca se toma del request, por seguridad.
             'foto_perfil' => null
         ]);
+
+        $token = $user->createToken('token_app')->plainTextToken;
 
         return response()->json([
             'exito' => true,
             'data' => [
-                'id' => $user->id,
-                'nombre' => $user->nombre,
-                'correo' => $user->correo,
-                'rol_id' => $user->rol_id,
+                'token' => $token,
+                'usuario' => [
+                    'id' => $user->id,
+                    'nombre' => $user->nombre,
+                    'correo' => $user->correo,
+                    'rol_id' => $user->rol_id,
+                ]
             ]
         ], 200);
     }
-
     }
 
 
