@@ -65,7 +65,7 @@
         </div>
 
         <div class="btnsPanel">
-            <a href="/verMesas" class="btn-add" style="background-color: #e9c46a; color: #264653;">Administracion de Mesas</a>
+            <a href="/mapaAdmin" class="btn-add" style="background-color: #e9c46a; color: #264653;">Administracion de Mesas</a>
         </div>
 
         <a href="/logout" class="logout-link">Cerrar Sesión</a>

@@ -9,10 +9,10 @@
 <body class="bg-light">
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="h2 text-dark">Gestión de Mesas</h1>
+            <h1 class="h2 text-dark">Tabla Gestion de Mesas</h1>
             <div>
                 <a href="/crearMesa" class="btn btn-success me-2">Nueva Mesa</a>
-                <a href="/admin" class="btn btn-secondary">Volver al Panel</a>
+                <a href="/mapaAdmin" class="btn btn-secondary">Regresar</a>
             </div>
         </div>
 

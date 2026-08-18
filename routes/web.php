@@ -35,6 +35,9 @@ Route::middleware('auth')->group(function () //needed to be logged in para acces
         return view('admin_home');
     });
 
+    Route::get('/logout', [AuthController::class, 'logoutWeb']);
+
+
     Route::get('/crearUsuario', function ()                                                     // vista para agregar usuarios
     {
         return view('registrarUsuario'); 
@@ -43,9 +46,9 @@ Route::middleware('auth')->group(function () //needed to be logged in para acces
     //Route::get('/roles', [RoleController::class, 'index']);                                   //Test
     Route::post('/crearUsuario', [AuthController::class, 'registration']);                      // crear usuarios
     Route::get('/usuarios', [UserController::class, 'index']);                                  // muestra usuarios
-    Route::get('/editarUsuario/{id}', [UserController::class, 'vistaModificarUsuario']);         // muestra front de editar usuario
-    Route::post('/editarUsuario/{id}', [UserController::class, 'modificarUsuario']);              // edita usuario
-    Route::delete('/eliminarUsuario/{id}', [UserController::class, 'eliminarUsuario']);                 // elimina usuario
+    Route::get('/editarUsuario/{id}', [UserController::class, 'vistaModificarUsuario']);        // muestra front de editar usuario
+    Route::post('/editarUsuario/{id}', [UserController::class, 'modificarUsuario']);            // edita usuario
+    Route::delete('/eliminarUsuario/{id}', [UserController::class, 'eliminarUsuario']);         // elimina usuario
 
     Route::get('/crearPlatillo', [PlatilloController::class, 'create']);                        // crear platillos
     Route::post('/crearPlatillo', [PlatilloController::class, 'store']);                        // almacena el platillo creado en la db
@@ -53,6 +56,10 @@ Route::middleware('auth')->group(function () //needed to be logged in para acces
     Route::get('/editarPlatillo/{id}', [PlatilloController::class, 'vistaModificarPlatillo']);  // edita platillo desde menu vista admin
     Route::post('editarPlatillo/{id}', [PlatilloController::class, 'modifcarPlatillos']);       // sube a db platillo editado desde menu vista admin
     Route::delete('eliminarPlatillo/{id}', [PlatilloController::class, 'eliminarPlatillo']);    // elimina platillo desde menu admin
+
+    Route::get('/mapaAdmin', [MesaController::class, 'mapaAdmin']);                             // ver las mesas desde mapa
+    Route::post('/guardarCoordenadas', [MesaController::class, 'guardarCoordenadas']);          // almacena las coordenadas de mesas
+    Route::get('/descargarExcelMapa', [MesaController::class, 'descargarExcelMapa']);           // descarga mapa en excel fromato
 
     Route::get('/crearMesa', [MesaController::class, 'createMesa']);                            // crea una mesa
     Route::post('/crearMesa', [MesaController::class, 'storeMesa']);                            // sube a db mesa creada
@@ -70,10 +77,9 @@ Route::middleware('auth')->group(function () //needed to be logged in para acces
 
 
     ###################################### RUTAS DE MESERO ######################################
-    Route::get('/mesasHome', function()
-    {
-        return view('mesero');
-    });
+
+    Route::get('/mesasHome', [App\Http\Controllers\MesaController::class, 'mapaMesero'])->middleware('auth');
+
 
     ###################################### FIN RUTAS DE MESERO ##################################
 
@@ -92,7 +98,7 @@ Route::middleware('auth')->group(function () //needed to be logged in para acces
 
     ###################################### FIN RUTAS DE COCINA ##################################
 
-    Route::get('/logout', [AuthController::class, 'logoutWeb']);
+
 });
 
 

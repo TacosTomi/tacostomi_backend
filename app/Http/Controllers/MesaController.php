@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\MesasExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use App\Models\Mesa;
 use App\Models\User;
@@ -97,4 +99,58 @@ class MesaController extends Controller
         
         return view('editar_mesa', compact('mesa', 'meseros'));
     }
+
+
+    public function mapaMesero()
+    {
+        if(auth()->user()->rol_id !== 3 && auth()->user()->rol_id !== 1) 
+        {
+            abort(403, 'Acceso denegado chiavo.');
+        }
+
+        $mesas = Mesa::with('mesero')->get(); 
+        
+        return view('mesero', compact('mesas'));
+    }
+
+    public function mapaAdmin()
+    {
+        if(auth()->user()->rol_id !== 1) 
+        {
+            abort(403, 'Alto ahi chiavo! esta funcion es solo para Admins Vrgs');
+        }
+
+        $mesas = Mesa::with('mesero')->get(); 
+        $meseros = User::where('rol_id', 3)->get(); 
+        
+        return view('mapa_admin', compact('mesas', 'meseros'));
+    }
+
+    public function guardarCoordenadas(Request $request)
+    {
+        if(auth()->user()->rol_id !== 1) abort(403);
+
+        $mesasData = $request->input('mesas'); 
+
+        foreach ($mesasData as $data) {
+            Mesa::where('id', $data['id'])->update([
+                'pos_x' => $data['x'],
+                'pos_y' => $data['y']
+            ]);
+        }
+
+        return response()->json(['success' => true, 'message' => '¡MAPA ACTUALIZADO CON ÉXITO!']);
+    }
+
+
+    public function descargarExcelMapa()
+    {
+        if(auth()->user()->rol_id !== 1) abort(403);
+
+        $fecha = date('d_m_Y'); // Genera el formato dd_mm_YYYY
+        $nombreArchivo = "mapa_{$fecha}_tacosTomi.xlsx";
+
+        return Excel::download(new MesasExport, $nombreArchivo);
+    }
+
 }

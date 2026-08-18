@@ -14,6 +14,8 @@ class Mesa extends Model
         'numero_mesa',
         'estado',
         'mesero_id',
+        'pos_x',
+        'pos_y',
     ];
 
     public function mesero()
